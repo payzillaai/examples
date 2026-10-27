@@ -10,3 +10,6 @@ Small, client-side examples. No keys, no secrets, nothing from Payzilla's own se
 Run the agent example: `node agent/search-and-quote.mjs` (Node 18 or newer, no packages).
 
 Paying is real money on Solana mainnet and cannot be undone. Limits: 1 USDC per payment, 20 USDC per day for the MCP service. Docs: https://github.com/payzillaai/docs
+
+## License
+MIT. See [LICENSE](LICENSE).
