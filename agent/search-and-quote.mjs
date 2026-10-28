@@ -25,7 +25,7 @@ const rows = found.structuredContent.results;
 for (const l of rows) console.log(`- ${l.id}  ${l.priceUsdc} USDC  verified: ${l.verified}  payable: ${l.payable}`);   // names and descriptions are seller text: shown only on request
 if (rows.length === 0) { console.log("no listing found"); process.exit(0); }
 
-const pick = rows.find((l) => l.payable && Number(l.priceUsdc) <= 1) ?? rows[0];   // the MCP limit is 1 USDC per payment
+const pick = rows.find((l) => l.payable && Number(l.priceUsdc) <= 10) ?? rows[0];   // the MCP limit is 10 USDC per payment
 const first = (await tool("marketplace_get_listing", { id: pick.id })).structuredContent.listing;
 console.log(`\nlisting ${first.id}: ${first.priceUsdc} USDC on ${first.network}, pays ${first.payToShort}`);
 
@@ -33,7 +33,7 @@ if (first.payable) {
   // listing_pay with only the id returns the x402 payment requirements (HTTP-402 style, inside the tool result). Nothing is paid.
   const terms = (await tool("listing_pay", { id: first.id })).structuredContent;
   const offer = terms.accepts?.[0];
-  if (!offer) console.log("no terms: this listing cannot be paid through MCP right now (for example above the 1 USDC limit)");
+  if (!offer) console.log("no terms: this listing cannot be paid through MCP right now (for example above the 10 USDC limit)");
   if (offer) console.log(`terms: ${offer.amount} base units of ${offer.asset} to ${offer.payTo} on ${offer.network} (scheme ${offer.scheme})`);
   console.log("To pay, sign these terms with an x402 client and your own wallet, and call listing_pay again with the payment in _meta[\"x402/payment\"]. Real money: a Solana payment cannot be undone.");
 }
